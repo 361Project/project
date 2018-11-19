@@ -13,7 +13,8 @@ app.use('/static', express.static('public'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 6045);
+// app.set('port', 6045);
+app.set('port', 8080);
 //app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
@@ -21,8 +22,26 @@ app.set('port', 6045);
 
 app.get('/', function(req, res){
     var context = {}; 
-    context.header = "Evacuation App"; 
+    context.title = "Evacuation App"; 
     res.render('home', context); 
+}); 
+
+app.get('/leaving', function(req, res){
+    var context = {}; 
+    context.title = "Leaving Forum"; 
+    res.render('leaving', context); 
+}); 
+
+app.get('/arriving', function(req, res){
+    var context = {}; 
+    context.title = "Arriving Forum"; 
+    res.render('arriving', context); 
+}); 
+
+app.get('/waiting', function(req, res){
+    var context = {}; 
+    context.title = "Waiting Forum"; 
+    res.render('waiting', context); 
 }); 
 
 //app.use(function(req,res){
