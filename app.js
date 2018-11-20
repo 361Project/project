@@ -1,11 +1,10 @@
-//author: Group 25
-
+//author: Group 25 
 var express = require('express');
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 var bodyParser = require('body-parser');
-//var mysql = require('./dbcon.js'); 
+var mysql = require('./dbcon.js'); 
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,6 +18,44 @@ app.set('port', 8080);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
 //app.use('/waiting', require('./waiting.js')); 
+
+//Test URL 
+//http://flip1.engr.oregonstate.edu:8080/insertUserAccount?passwords=year&fname=corey&lname=broyles&picture=picture&age=99&phone=99966666&email=yeahhoo
+app.get('/insertUserAccount', function(req, res, next){
+	var context = {};
+	
+	mysql.pool.query("INSERT INTO UserAccount (passwords, fname, lname, picture, age, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			 [req.query.passwords, req.query.fname, req.query.lname, req.query.picture, req.query.age, req.query.phone, req.query.email], function(err, result){
+ 			
+			if(err){
+				next(err);
+				return; 
+			}
+			//This might have to be changed to user page once implemented 
+			context.results = "Inserted id" + result.id; 
+			res.render('home', context);
+	
+	});
+});
+app.get('/insertPost', function(req, res, next){
+	var context = {};
+//Test URL 
+//http://flip1.engr.oregonstate.edu:8080/insertPost?UserId=4&title=helphere&dateOfPost=9999-12-31&dateRequesting=9999-12-31&timeRequesting=9999-12-31&message=weareheretohelp&pets=2&offerType=shelter&space=4&city=boise&street=funstrt&state=id&zip=83714	
+	mysql.pool.query("INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip)" + 
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [req.query.UserId, req.query.title, req.query.dateOfPost, req.query.dateRequesting,
+			 req.query.timeRequesting, req.query.message, req.query.pets, req.query.offerType, req.query.space, req.query.city, req.query.street,
+			 req.query.state, req.query.zip], function(err, result){
+	if(err){
+		next(err);
+		return; 
+	}
+	context.results = "Id =" + result.id
+
+	res.render('home', context); 
+
+	});
+});
+
 
 app.get('/', function(req, res){
     var context = {}; 
