@@ -82,6 +82,21 @@ app.get('/deleteUserAccount', function(req, res, next){
     })
 })
 
+//Test URL
+//http://flip1.engr.oregonstate.edu:8080/deletePost?PostId=3
+app.get('/deletePost', function(req, res, next){
+    var context = {};
+    mysql.pool.query("DELETE FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        context.results = 'Deleted Row:' + result.affectedRows;
+
+        res.render('home',context);
+    })
+})
+
 
 app.get('/', function(req, res){
     var context = {}; 
