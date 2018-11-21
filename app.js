@@ -37,6 +37,11 @@ app.get('/insertUserAccount', function(req, res, next){
 	
 	});
 });
+app.get('/signup', function(req, res){
+	var context = {};
+	context.title = 'Signup';
+	res.render('signup', context);
+}); 
 app.get('/insertPost', function(req, res, next){
 	var context = {};
 //Test URL 
