@@ -61,6 +61,27 @@ app.get('/insertPost', function(req, res, next){
 	});
 });
 
+//Test URL
+//http://flip1.engr.oregonstate.edu:8080/deleteUserAccount?UserId=4
+app.get('/deleteUserAccount', function(req, res, next){
+    var context = {};
+    mysql.pool.query("DELETE FROM Post WHERE UserId = ?", [req.query.UserId], function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        mysql.pool.query("DELETE FROM UserAccount WHERE Id = ?", [req.query.UserId], function(err, result){
+            if(err){
+                next(err);
+                return;
+            }
+            context.results = 'Deleted Row:' + result.affectedRows;
+
+            res.render('home',context);
+        })
+    })
+})
+
 
 app.get('/', function(req, res){
     var context = {}; 
