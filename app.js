@@ -106,8 +106,24 @@ app.get('/', function(req, res){
 
 app.get('/leaving', function(req, res){
     var context = {}; 
+    context.jsscripts = ["displayLeavingPosts.js"]; //this script contains jquery for ajax calls
     context.title = "Leaving Forum"; 
     res.render('leaving', context); 
+}); 
+
+//Route catches Jquery ajax requests for posts and filtered searches 
+//TODO: same strategy for other forums
+app.get('/leavingPosts', function(req, res){
+    var context = {}; 
+    var inserts = [req.query.city, req.query.state, req.query.passengers, req.query.pets]; 
+    mysql.pool.query("SELECT * FROM Post WHERE city = ? AND state = ? AND passengers >= ? AND pets = ?", inserts, function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        context.posts = results; 
+        res.send(context);
+    }); 
 }); 
 
 app.get('/arriving', function(req, res){
