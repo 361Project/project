@@ -24,8 +24,8 @@ app.set('port', 8080);
 app.get('/insertUserAccount', function(req, res, next){
 	var context = {};
 	
-	mysql.pool.query("INSERT INTO UserAccount (passwords, fname, lname, picture, age, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)",
-			 [req.query.passwords, req.query.fname, req.query.lname, req.query.picture, req.query.age, req.query.phone, req.query.email], function(err, result){
+	mysql.pool.query("INSERT INTO UserAccount (fname, lname, email, phone, picture, age, passwords) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			 [req.query.fname, req.query.lname, req.query.email, req.query.phone, req.query.picture, req.query.age, req.query.passwords], function(err, result){
  			
 			if(err){
 				next(err);
