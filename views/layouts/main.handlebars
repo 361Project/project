@@ -11,12 +11,13 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/style.css?v=1.0"> 
+    <script src="/static/displayPosts.js"></script>
     {{#each jsscripts}}
     <script src="/static/{{this}}"></script>
     {{/each}}
 	<title>{{this.title}}</title>
 </head>
-<body>
+<body onload="displayPosts('{{this.forum}}')">
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
