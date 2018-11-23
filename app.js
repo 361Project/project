@@ -45,10 +45,9 @@ app.get('/insertPost', function(req, res, next){
 	var context = {};
 //Test URL 
 //http://flip1.engr.oregonstate.edu:8080/insertPost?UserId=4&title=helphere&dateOfPost=9999-12-31&dateRequesting=9999-12-31&timeRequesting=9999-12-31&message=weareheretohelp&pets=2&offerType=shelter&space=4&city=boise&street=funstrt&state=id&zip=83714	
-	mysql.pool.query("INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip)" + 
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [req.query.UserId, req.query.title, req.query.dateOfPost, req.query.dateRequesting,
-			 req.query.timeRequesting, req.query.message, req.query.pets, req.query.offerType, req.query.space, req.query.city, req.query.street,
-			 req.query.state, req.query.zip], function(err, result){
+	mysql.pool.query("INSERT INTO Post (UserId, title, street, city, state, zip, dateRequesting, timeRequesting,  pets, offerType, space, message, dateOfPost)" + 
+			"VALUES ((SELECT Id FROM UserAccount WHERE email=?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())", [req.query.email, req.query.title, req.query.street, req.query.city, req.query.state, req.query.zip, req.query.dateRequesting,
+			 req.query.timeRequesting, req.query.pets, req.query.offerType, req.query.space, req.query.message], function(err, result){
 	if(err){
 		next(err);
 		return; 
@@ -59,7 +58,11 @@ app.get('/insertPost', function(req, res, next){
 
 	});
 });
-
+app.get('/makepost', function(req, res){
+	var context = {};
+	context.title = "MakePost";
+	res.render('makepost', context);
+});
 //Test URL
 //http://flip1.engr.oregonstate.edu:8080/deleteUserAccount?UserId=4
 app.get('/deleteUserAccount', function(req, res, next){
