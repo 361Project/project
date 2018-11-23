@@ -12,7 +12,7 @@ app.use('/static', express.static('public'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 8080);
+app.set('port', 8081);
 app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
@@ -99,24 +99,39 @@ app.get('/deletePost', function(req, res, next){
 
 app.get('/', function(req, res){
     var context = {}; 
+	context.forum = "home";
     context.title = "Evacuation App"; 
     res.render('home', context); 
 }); 
 
 app.get('/leaving', function(req, res){
     var context = {}; 
-    context.jsscripts = ["displayLeavingPosts.js"]; //this script contains jquery for ajax calls
+	context.forum = "leaving"; //variable to indicate which posts to display
     context.title = "Leaving Forum"; 
     res.render('leaving', context); 
 }); 
 
-//Route catches Jquery ajax requests for posts and filtered searches 
-//TODO: same strategy for other forums
-app.get('/leavingPosts', function(req, res, next){
+app.get('/arriving', function(req, res){
     var context = {}; 
-	if(Object.keys(req.query).length == 0) //no query string
+	context.forum = "arriving";
+    context.title = "Arriving Forum"; 
+    res.render('arriving', context); 
+}); 
+
+app.get('/waiting', function(req, res){
+    var context = {}; 
+	context.forum = "waiting";
+    context.title = "Waiting Forum"; 
+    res.render('waiting', context); 
+}); 
+
+//Route catches Jquery ajax requests for posts and filtered searches 
+app.get('/posts', function(req, res, next){
+    var context = {}; 
+	if(Object.keys(req.query).length == 1) //no query string, just forum title, get all posts of type ride, or shelter, or donation
 	{
-		mysql.pool.query("SELECT * FROM Post WHERE offerType = 'ride'", function(err, results){
+		var inserts = [req.query.offer]; 
+		mysql.pool.query("SELECT * FROM Post WHERE offerType = ?", inserts, function(err, results){
 			if(err){
 				next(err);
 				return;
@@ -127,8 +142,8 @@ app.get('/leavingPosts', function(req, res, next){
 	}
 	else //build the sql query based on filters
 	{
-		var sql = "SELECT * FROM Post WHERE offerType = 'ride'";  
-		var inserts = [];
+		var sql = "SELECT * FROM Post WHERE offerType = ?"; 
+		var inserts = [req.query.offer];
 		if(req.query.city || req.query.state || req.query.passengers || req.query.pets)
 		{
 			sql += " AND"; 
@@ -174,18 +189,6 @@ app.get('/leavingPosts', function(req, res, next){
 			res.send(context);
 		}); 
 	}
-}); 
-
-app.get('/arriving', function(req, res){
-    var context = {}; 
-    context.title = "Arriving Forum"; 
-    res.render('arriving', context); 
-}); 
-
-app.get('/waiting', function(req, res){
-    var context = {}; 
-    context.title = "Waiting Forum"; 
-    res.render('waiting', context); 
 }); 
 
 app.use(function(req,res){
