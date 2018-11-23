@@ -12,9 +12,8 @@ app.use('/static', express.static('public'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-// app.set('port', 6045);
 app.set('port', 8080);
-//app.set('mysql', mysql);
+app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
 //app.use('/waiting', require('./waiting.js')); 
@@ -113,17 +112,68 @@ app.get('/leaving', function(req, res){
 
 //Route catches Jquery ajax requests for posts and filtered searches 
 //TODO: same strategy for other forums
-app.get('/leavingPosts', function(req, res){
+app.get('/leavingPosts', function(req, res, next){
     var context = {}; 
-    var inserts = [req.query.city, req.query.state, req.query.passengers, req.query.pets]; 
-    mysql.pool.query("SELECT * FROM Post WHERE city = ? AND state = ? AND passengers >= ? AND pets = ?", inserts, function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        context.posts = results; 
-        res.send(context);
-    }); 
+	if(Object.keys(req.query).length == 0) //no query string
+	{
+		mysql.pool.query("SELECT * FROM Post WHERE offerType = 'ride'", function(err, results){
+			if(err){
+				next(err);
+				return;
+			}
+			context.posts = results; 
+			res.send(context);
+		}); 
+	}
+	else //build the sql query based on filters
+	{
+		var sql = "SELECT * FROM Post WHERE offerType = 'ride'";  
+		var inserts = [];
+		if(req.query.city || req.query.state || req.query.passengers || req.query.pets)
+		{
+			sql += " AND"; 
+		}
+		if(req.query.city)
+		{
+			sql += " city = ?"; 
+			inserts.push(req.query.city);
+			if(req.query.state || req.query.passengers || req.query.pets) 
+			{
+				sql += " AND"; 
+			}
+		}
+		if(req.query.state)
+		{
+			sql += " state = ?"; 
+			inserts.push(req.query.state);
+			if(req.query.passengers || req.query.pets) 
+			{
+				sql += " AND"; 
+			}
+		}
+		if(req.query.passengers)
+		{
+			sql += " space >= ?"; 
+			inserts.push(req.query.passengers);
+			if(req.query.pets) 
+			{
+				sql += " AND"; 
+			}
+		}
+		if(req.query.pets)
+		{
+			sql += " pets >= ?"; 
+			inserts.push(req.query.pets);
+		}
+		mysql.pool.query(sql, inserts, function(err, results){
+			if(err){
+				next(err);
+				return;
+			}
+			context.posts = results; 
+			res.send(context);
+		}); 
+	}
 }); 
 
 app.get('/arriving', function(req, res){
@@ -138,17 +188,17 @@ app.get('/waiting', function(req, res){
     res.render('waiting', context); 
 }); 
 
-//app.use(function(req,res){
-//  res.status(404);
-//  res.render('404');
-//});
-//
-//app.use(function(err, req, res, next){
-//  console.error(err.stack);
-//  res.type('plain/text');
-//  res.status(500);
-//  res.render('500');
-//});
+app.use(function(req,res){
+  res.status(404);
+  res.render('404');
+});
+
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.type('plain/text');
+  res.status(500);
+  res.render('500');
+});
 
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
