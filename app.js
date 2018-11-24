@@ -2,7 +2,15 @@
 var express = require('express');
 
 var app = express();
-var handlebars = require('express-handlebars').create({defaultLayout:'main'});
+var handlebars = require('express-handlebars').create({
+    defaultLayout:'main',
+    helpers: {
+        selected: function(a,b) {
+            if (a == b) { return 'selected="selected"'; }
+            return '';
+        }
+    }
+});
 var bodyParser = require('body-parser');
 var mysql = require('./dbcon.js'); 
 
@@ -63,16 +71,22 @@ app.get('/makepost', function(req, res){
 	context.title = "MakePost";
 	res.render('makepost', context);
 });
+
+app.get('/deleteAccount', function(req, res, next){
+    var context = {};
+    res.render('deleteaccount',context);
+})
+
 //Test URL
 //http://flip1.engr.oregonstate.edu:8080/deleteUserAccount?UserId=4
 app.get('/deleteUserAccount', function(req, res, next){
     var context = {};
-    mysql.pool.query("DELETE FROM Post WHERE UserId = ?", [req.query.UserId], function(err, result){
+    mysql.pool.query("DELETE FROM Post WHERE UserId = (SELECT Id FROM UserAccount WHERE email=?)", [req.query.email], function(err, result){
         if(err){
             next(err);
             return;
         }
-        mysql.pool.query("DELETE FROM UserAccount WHERE Id = ?", [req.query.UserId], function(err, result){
+        mysql.pool.query("DELETE FROM UserAccount WHERE email = ?", [req.query.email], function(err, result){
             if(err){
                 next(err);
                 return;
@@ -81,6 +95,83 @@ app.get('/deleteUserAccount', function(req, res, next){
 
             res.render('home',context);
         })
+    })
+})
+
+app.get('/editPost', function(req, res, next){
+    var context = {};
+    mysql.pool.query("SELECT * FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        context.post = result;
+        context.states = [
+            { name: "Alabama"},
+            { name: "Alaska"},
+            { name: "Arizona"},
+            { name: "Arkansas"},
+            { name: "California"},
+            { name: "Colorado"},
+            { name: "Connecticut"},
+            { name: "Delaware"},
+            { name: "District of Columbia"},
+            { name: "Florida"},
+            { name: "Georgia"},
+            { name: "Hawaii"},
+            { name: "Idaho"},
+            { name: "Illinois"},
+            { name: "Indiana"},
+            { name: "Iowa"},
+            { name: "Kansas"},
+            { name: "Kentucky"},
+            { name: "Louisiana"},
+            { name: "Maine"},
+            { name: "Maryland"},
+            { name: "Massachussets"},
+            { name: "Michigan"},
+            { name: "Minnesota"},
+            { name: "Mississippi"},
+            { name: "Missouri"},
+            { name: "Montana"},
+            { name: "Nebraska"},
+            { name: "Nevada"},
+            { name: "New Hampshire"},
+            { name: "New Jersey"},
+            { name: "New Mexico"},
+            { name: "New York"},
+            { name: "North Carolina"},
+            { name: "North Dakota"},
+            { name: "Ohio"},
+            { name: "Oklahoma"},
+            { name: "Oregon"},
+            { name: "Pennsylvania"},
+            { name: "Rhode Island"},
+            { name: "South Carolina"},
+            { name: "South Dakota"},
+            { name: "Tennessee"},
+            { name: "Texas"},
+            { name: "Utah"},
+            { name: "Vermont"},
+            { name: "Virginia"},
+            { name: "Washington"},
+            { name: "West Virginia"},
+            { name: "Wisconsin"},
+            { name: "Wyoming"}
+        ];
+        res.render('editpost',context);
+    })
+})
+
+app.get('/updatePost', function(req, res, nexxt){
+    var context = {};
+    mysql.pool.query("UPDATE Post SET title = ?, street = ?, city = ?, state = ?, zip = ?, dateRequesting = ?, timeRequesting = ?, pets = ?, offerType = ?, space = ?, message = ? WHERE Id = ?",
+        [req.query.title, req.query.street, req.query.city, req.query.state, req.query.zip, req.query.dateRequesting, req.query.timeRequesting, req.query.pets, req.query.offerType, req.query.space, req.query.message, req.query.postId],function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        res.render('home',context);
     })
 })
 

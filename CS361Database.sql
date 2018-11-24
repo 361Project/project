@@ -40,19 +40,19 @@ CREATE TABLE Post(
 /*test variables */
 INSERT INTO UserAccount(passwords, fname, lname, picture, age, phone, email) VALUES ("pass", "stephen", "waller", "test.com", 50, "555-555-5555", "y@gmail.com");
 INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip) VALUES (
-	1, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 2,  "ride", 4, "Boise", "7590  ave", "id", 8814);
+	1, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 2,  "ride", 4, "Boise", "7590  ave", "Idaho", 8814);
     
 INSERT INTO UserAccount(passwords, fname, lname, picture, age, phone, email) VALUES ("pass", "Luke", "blanchlu", "test2.com", 50, "455-555-5555", "z@gmail.com");
 INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip) VALUES (
-	2, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 0,  "ride", 4, "Boise", "70  ave", "id", 8814);
+	2, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 0,  "ride", 4, "Boise", "70  ave", "Idaho", 8814);
     
 INSERT INTO UserAccount(passwords, fname, lname, picture, age, phone, email) VALUES ("pass", "Josh", "Kinzel", "test3.com", 50, "355-555-5555", "x@gmail.com");
 INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip) VALUES (
-	3, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 9,  "ride", 4, "Boise", "90  ave", "id", 8814);
+	3, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 9,  "ride", 4, "Boise", "90  ave", "Idaho", 8814);
     
 INSERT INTO UserAccount(passwords, fname, lname, picture, age, phone, email) VALUES ("pass", "Brett", "Hoelscher", "test4.com", 50, "255-555-5555", "w@gmail.com");
 INSERT INTO Post (UserId, title, dateOfPost, dateRequesting, timeRequesting, message, pets, offerType, space, city, street, state, zip) VALUES (
-	4, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 5,  "ride", 4, "Boise", "7  ave", "id", 8814);
+	4, "NEED HELP", NOW(), NOW(), NOW(), "I AM HERE TO HELP ANYONE WHO NEEDS IT", 5,  "ride", 4, "Boise", "7  ave", "Idaho", 8814);
 
 
 
