@@ -168,7 +168,7 @@ app.get('/editPost', function(req, res, next){
 app.get('/updatePost', function(req, res, nexxt){
     var context = {};
     mysql.pool.query("UPDATE Post SET title = ?, street = ?, city = ?, state = ?, zip = ?, dateRequesting = ?, timeRequesting = ?, pets = ?, offerType = ?, space = ?, message = ? WHERE Id = ?",
-        [req.query.title, req.query.street, req.query.city, req.query.state, req.query.zip, req.query.dateRequesting, req.query.timeRequesting, req.query.pets, req.query.offerType, req.query.space, req.query.message, req.query.PostId],function(err, result){
+        [req.query.title, req.query.street, req.query.city, req.query.state, req.query.zip, req.query.dateRequesting, req.query.timeRequesting, req.query.pets, req.query.offerType, req.query.space, req.query.message, req.query.postId],function(err, result){
         if(err){
             next(err);
             return;
