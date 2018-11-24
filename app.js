@@ -78,7 +78,7 @@ app.get('/deleteAccount', function(req, res, next){
 })
 
 //Test URL
-//http://flip1.engr.oregonstate.edu:8080/deleteUserAccount?UserId=4
+//http://flip1.engr.oregonstate.edu:8081/deleteUserAccount?UserId=4
 app.get('/deleteUserAccount', function(req, res, next){
     var context = {};
     mysql.pool.query("DELETE FROM Post WHERE UserId = (SELECT Id FROM UserAccount WHERE email=?)", [req.query.email], function(err, result){
@@ -98,6 +98,8 @@ app.get('/deleteUserAccount', function(req, res, next){
     })
 })
 
+//Test URL
+//http://flip1.engr.oregonstate.edu:8081/editPost?PostId=1
 app.get('/editPost', function(req, res, next){
     var context = {};
     mysql.pool.query("SELECT * FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
@@ -176,7 +178,7 @@ app.get('/updatePost', function(req, res, nexxt){
 })
 
 //Test URL
-//http://flip1.engr.oregonstate.edu:8080/deletePost?PostId=3
+//http://flip1.engr.oregonstate.edu:8081/deletePost?PostId=3
 app.get('/deletePost', function(req, res, next){
     var context = {};
     mysql.pool.query("DELETE FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
