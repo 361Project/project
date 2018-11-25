@@ -1,0 +1,103 @@
+<div class="overlay"></div>
+
+<div id="video"></div>
+
+{{!-- YouTube API --}}
+{{!-- Source:
+https://webapps.stackexchange.com/questions/45884/have-an-embedded-youtube-video-loop-end-at-specified-time-every-time-it-plays
+--}}
+
+<script async src="https://www.youtube.com/iframe_api"></script>
+<script>
+  var player;
+  var videoId = 'uFtHWRJ8aH0';
+  var startSeconds = 10;  // set your own video start time when loop play
+  var endSeconds = 90;   // set your own video end time when loop play
+  var playerConfig = {
+    height: '250',
+    width: '100%',
+    videoId: videoId,
+    playerVars: {
+
+      autoplay: 1,            // Auto-play the video on loa
+      loop: 1,
+      controls: 0,            // Show pause/play buttons in player
+      showinfo: 0,            // Hide the video title
+      frameborder: 0,
+      modestbranding: 1,      // Hide the Youtube Logo
+      fs: 1,                  // Hide the full screen button
+      cc_load_policy: 0,      // Hide closed captions
+      iv_load_policy: 3,      // Hide the Video Annotations
+      start: startSeconds,
+      end: endSeconds,
+      autohide: 0, // Hide video controls when playing
+    },
+    events: {
+      'onStateChange': onStateChange,       // reference to Iframe API
+      onReady: function (e) {              // mute the video when loaded
+        e.target.mute();
+      }
+    }
+  };
+  //excute the video in div
+  function onYouTubePlayerAPIReady() {
+
+    player = new YT.Player('video', playerConfig);
+
+  }
+  //repload the video when onStateChange=YT.PlayerState.ENDED)
+  function onStateChange(state) {
+    if (state.data === YT.PlayerState.ENDED) {
+      player.loadVideoById({
+        videoId: videoId,
+        startSeconds: startSeconds,
+        endSeconds: endSeconds
+
+      });
+    }
+  }
+
+</script>
+
+
+
+<div class="masthead">
+  <div class="masthead-bg"></div>
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-12 my-auto">
+        <div class="masthead-content text-white py-5 py-md-0">
+          <h1 class="mb-3" id='cover-h1'>Emergency Evacuations</h1>
+          <p class="mb-5"><strong>Emergency Evacuations</strong> is dedicated to helping evacuees during any emergency situation where evacuation is either necessary or declared mandatory. We aim to help with both logistics and financial burden of an evacuation by connecting evacuees with volunteers for a fast and safe evacuation</strong></p>
+          <div class="input-group input-group-newsletter">
+            <div class="input-group-append">
+              <form action="/home">
+                <input class="btn btn-secondary" type="submit" value="ENTER SITE"/>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="social-icons">
+  <ul class="list-unstyled text-center mb-0">
+    <li class="list-unstyled-item">
+      <a href="#">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li class="list-unstyled-item">
+      <a href="#">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li class="list-unstyled-item">
+      <a href="#">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </li>
+  </ul>
+</div>

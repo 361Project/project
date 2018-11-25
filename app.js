@@ -192,8 +192,15 @@ app.get('/deletePost', function(req, res, next){
     })
 })
 
-
 app.get('/', function(req, res){
+    var context = {}; 
+	context.forum = "landing";
+	context.title = "Evacuation App"; 
+	context.layout = "landing-layout"
+    res.render('landing', context); 
+}); 
+
+app.get('/home', function(req, res){
     var context = {}; 
 	context.forum = "home";
     context.title = "Evacuation App"; 
