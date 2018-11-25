@@ -34,6 +34,11 @@ function displayPosts(forum)
 					+ "<p>Space: " + post.space + "</p>" 
 					+ "<p>Pets: " + post.pets + "</p>" 
 					+ "<p>Message: " + post.message + "</p>" 
+                    + "<form method='get'>"
+                    + "<input type='hidden' name='PostId' value='" + post.Id + "'>"
+                    + "<button type='submit' formaction='/editPost'>Edit</button>"
+                    + "<button type='submit' formaction='/deletePost'>Delete</button>"
+                    + "</form>"
 					+ "</div>"); 
     	            $("#postsDiv").append($post); 
     	        })
@@ -68,6 +73,11 @@ function filterSearch(offer)
 			+ "<p>Space: " + post.space + "</p>" 
 			+ "<p>Pets: " + post.pets + "</p>" 
 			+ "<p>Message: " + post.message + "</p>" 
+            + "<form method='get'>"
+            + "<input type='hidden' name='PostId' value='" + post.Id + "'>"
+            + "<button type='submit' formaction='/editPost'>Edit</button>"
+            + "<button type='submit' formaction='/deletePost'>Delete</button>"
+            + "</form>"
 			+ "</div>"); 
 			$("#postsDiv").append($post); 
         }); 
