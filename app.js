@@ -102,7 +102,7 @@ app.get('/deleteUserAccount', function(req, res, next){
 //http://flip1.engr.oregonstate.edu:8081/editPost?PostId=1
 app.get('/editPost', function(req, res, next){
     var context = {};
-    mysql.pool.query("SELECT * FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
+    mysql.pool.query("SELECT Id, city, dateOfPost, YEAR(dateRequesting) as year, MONTH(dateRequesting) as month, DAY(dateRequesting) as day, message, offerType, pets, space, state, street, timeRequesting, title, UserId, zip FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
         if(err){
             next(err);
             return;
