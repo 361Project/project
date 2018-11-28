@@ -20,12 +20,25 @@ app.use('/static', express.static('public'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 8081);
+app.set('port', 8086);
 app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
 //app.use('/waiting', require('./waiting.js')); 
+//Test var for path to report post 
+//http://flip1.engr.oregonstate.edu:8086/reportPost?userId=1&postId=3&whyReported=becauseIwantedto
+app.get('/reportPost', function(req, res, next){
 
+        mysql.pool.query("INSERT INTO ReportPost (userId, postId, whyReported, dateOfRep) VALUES (?, ?, ?, NOW())", 
+        [req.query.userId, req.query.postId, req.query.whyReported], function(err, result){
+            if(err){
+                next(err);    
+                return; 
+            }            
+        });
+
+        res.render('home');
+});
 //Test URL 
 //http://flip1.engr.oregonstate.edu:8080/insertUserAccount?passwords=year&fname=corey&lname=broyles&picture=picture&age=99&phone=99966666&email=yeahhoo
 app.get('/insertUserAccount', function(req, res, next){
