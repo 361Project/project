@@ -1,0 +1,17 @@
+<div class="container-fluid"
+{{#each post}}
+<div class="list-group-item">
+    <h2>{{this.title}}</h2>
+
+    <p>{{this.message}}</p>
+    <p>Location: {{this.city}}, {{this.state}} {{this.zip}}</p>
+    <p>Date Needed: {{this.dateRequesting}} {{this.timeRequesting}}</p>
+
+    <p>People: {{this.space}}</p>
+    <p>Pets: {{this.pets}}</p>
+
+
+
+</div>
+{{/each}}
+</div>
