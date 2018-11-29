@@ -36,6 +36,7 @@ function displayPosts(forum)
 					+ "<p>Message: " + post.message + "</p>" 
                     + "<form method='get'>"
                     + "<input type='hidden' name='PostId' value='" + post.Id + "'>"
+                    + "<button type='submit' formaction='/viewPost'>View Post</button>"
                     + "<button type='submit' formaction='/editPost'>Edit</button>"
                     + "<button type='submit' formaction='/deletePost'>Delete</button>"
                     + "</form>"

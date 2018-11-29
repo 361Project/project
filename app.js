@@ -217,6 +217,21 @@ app.get('/deletePost', function(req, res, next){
     })
 })
 
+app.get('/viewPost', function(req, res, next){
+    var context = {};
+    mysql.pool.query("SELECT * FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
+        if(err){
+            next(err);
+            return;
+        }
+        context.post = result;
+        console.log(context);
+        context.post[0].dateRequesting = context.post[0].dateRequesting.toLocaleDateString("en-Us");
+
+        res.render('viewpost',context);
+    })
+})
+
 app.get('/', function(req, res){
     var context = {}; 
 	context.forum = "landing";
