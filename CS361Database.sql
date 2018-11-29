@@ -19,7 +19,7 @@ CREATE TABLE UserAccount(
 
 CREATE TABLE Post(
 	Id INT NOT NULL AUTO_INCREMENT, 
-    UserId INT NOT NULL,
+    userId INT NOT NULL,
     title VARCHAR(55) NOT NULL, 
     dateOfPost DATE NOT NULL, 
     dateRequesting DATE NOT NULL, 
