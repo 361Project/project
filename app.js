@@ -29,8 +29,8 @@ app.set('mysql', mysql);
 //http://flip1.engr.oregonstate.edu:8086/reportPost?userId=1&postId=3&whyReported=becauseIwantedto
 app.get('/reportPost', function(req, res, next){
 
-        mysql.pool.query("INSERT INTO ReportPost (userId, postId, whyReported, dateOfRep) VALUES (?, ?, ?, NOW())", 
-        [req.query.userId, req.query.postId, req.query.whyReported], function(err, result){
+        mysql.pool.query("INSERT INTO ReportPost (userId, postId, whyReported, dateOfRep) VALUES ((SELECT userId FROM Post WHERE Id = ?), ?, ?, NOW())", 
+        [req.query.postId, req.query.postId, req.query.whyReported], function(err, result){
             if(err){
                 next(err);    
                 return; 
@@ -39,6 +39,18 @@ app.get('/reportPost', function(req, res, next){
 
         res.render('home');
 });
+app.get('/reportForm', function(req, res){
+    var context = {};
+    mysql.pool.query("SELECT Id, title FROM Post WHERE Id = ?", [req.query.PostId], function(err, result){
+            if(err){
+                next(err);    
+                return; 
+            } 
+            context.titleOfPost = result;
+            console.log(context);   
+            res.render('reportView', context);            
+        });
+}); 
 //Test URL 
 //http://flip1.engr.oregonstate.edu:8080/insertUserAccount?passwords=year&fname=corey&lname=broyles&picture=picture&age=99&phone=99966666&email=yeahhoo
 app.get('/insertUserAccount', function(req, res, next){
