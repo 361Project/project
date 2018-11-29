@@ -1,0 +1,40 @@
+<div class="container">
+{{#each titleOfPost}}
+    <form class="well form-horizontal" action="/reportPost" method="get"  id="contact_form">
+<fieldset>
+
+
+<!-- Form Name -->
+<legend>Report Post Post ID: {{Id}}</legend>
+
+<h4>Title: {{title}}<h4>
+<!-- Hidden input-->
+<input type="hidden" id="userId" name="userId" value="{{Id}}">
+<input type="hidden" id="userId" name="postId" value="{{Id}}">
+
+<!-- Text area -->
+  
+<div class="form-group">
+  <label class="col-md-4 control-label">Message</label>
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            <textarea class="form-control" name="whyReported"></textarea>
+  </div>
+  </div>
+</div>
+
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-warning">Report<span class="glyphicon glyphicon-send"></span></button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+{{/each}}
+</div>
+    </div><!-- /.container -->
