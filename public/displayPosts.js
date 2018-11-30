@@ -39,6 +39,7 @@ function displayPosts(forum)
                     + "<button type='submit' formaction='/viewPost'>View Post</button>"
                     + "<button type='submit' formaction='/editPost'>Edit</button>"
                     + "<button type='submit' formaction='/deletePost'>Delete</button>"
+                    + "<button type='submit' formaction='/reportForm'>Report</button>"
                     + "</form>"
 					+ "</div>"); 
     	            $("#postsDiv").append($post); 
