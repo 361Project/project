@@ -1,17 +1,47 @@
-<div class="container-fluid"
-{{#each post}}
-<div class="list-group-item">
-    <h2>{{this.title}}</h2>
+<div class="container-fluid" <div class="list-group-item">
+    <h2>{{post.[0].title}}</h2>
 
-    <p>{{this.message}}</p>
-    <p>Location: {{this.city}}, {{this.state}} {{this.zip}}</p>
-    <p>Date Needed: {{this.dateRequesting}} {{this.timeRequesting}}</p>
+    <p>{{post.[0].message}}</p>
+    <p>Volunteer Name: {{user.[0].fname}}</p>
+    <p>Location: {{post.[0].city}}, {{post.[0].state}} {{post.[0].zip}}</p>
+    <p>Date Needed: {{post.[0].dateRequesting}} {{post.[0].timeRequesting}}</p>
 
-    <p>People: {{this.space}}</p>
-    <p>Pets: {{this.pets}}</p>
-
-
+    <p>People: {{post.[0].space}}</p>
+    <p>Pets: {{post.[0].pets}}</p>
+    <p>Enter email and email password to request help from volunteer:</p>
+    <input type='email' id='email-text' style='width: 150px'>
+    <input type='password' id='email-password' style='width: 150px'>
+    <button id='contact-button'>Contact Volunteer</button>
+    
+    {{!--script for AJAX call to email volunteer when button pressed--}}
+    <script>
+        var contactButton = document.getElementById('contact-button');
+        contactButton.addEventListener('click', function(event) {
+            var entryData = {};
+            
+            entryData.email1 = "{{user.[0].email}}";
+            entryData.email2 = document.getElementById('email-text').value;
+            entryData.email2Password = document.getElementById('email-password').value;
+            
+            
+            var req = new XMLHttpRequest();
+            req.open("POST", '/contact', true);
+            req.setRequestHeader("Content-type", "application/json");
+            req.send(JSON.stringify(entryData));
+            req.addEventListener('load', function() {
+                if (req.status >= 200 && req.status < 400) {
+                    alert("An email was sent to the volunteer with your request! You will receive an email response if they choose to accept.")
+                    location.reload(false);
+                }
+                else {
+                    alert("Error in network request: " + req.statusText);
+                    location.reload(false);
+                }
+            });
+            event.preventDefault();
+        });
+    </script>
 
 </div>
-{{/each}}
+
 </div>
