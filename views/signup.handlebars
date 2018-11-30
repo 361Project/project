@@ -1,6 +1,6 @@
 <div class="container">
 
-    <form class="well form-horizontal" action="/insertUserAccount" method="get"  id="contact_form">
+    <form class="well form-horizontal" onsubmit="return checkValues()" action="/insertUserAccount" method="get"  id="contact_form">
 <fieldset>
 
 <!-- Form Name -->
@@ -91,7 +91,7 @@
 
 
 <!-- Success message -->
-<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thank you for signing up!</div>
+<div class="alert alert-danger" role="alert" id="alert_message" style="visibility: hidden;"><i class="glyphicon glyphicon-warning-sign"></i> Please complete entire form before submitting.</div>
 
 <!-- Button -->
 <div class="form-group">

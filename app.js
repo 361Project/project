@@ -26,7 +26,7 @@ var nodemailer = require('nodemailer');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 8080);
+app.set('port', 8074);
 app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
@@ -60,7 +60,7 @@ app.get('/reportForm', function(req, res) {
 //http://flip1.engr.oregonstate.edu:8080/insertUserAccount?passwords=year&fname=corey&lname=broyles&picture=picture&age=99&phone=99966666&email=yeahhoo
 app.get('/insertUserAccount', function(req, res, next) {
     var context = {};
-
+	context.signup = true; 	
     mysql.pool.query("INSERT INTO UserAccount (fname, lname, email, phone, picture, age, passwords) VALUES (?, ?, ?, ?, ?, ?, ?)", [req.query.fname, req.query.lname, req.query.email, req.query.phone, req.query.picture, req.query.age, req.query.passwords], function(err, result) {
 
         if (err) {
