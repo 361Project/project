@@ -80,6 +80,7 @@ app.get('/signup', function(req, res) {
 });
 app.get('/insertPost', function(req, res, next) {
     var context = {};
+	context.postCreated = true; 
     //Test URL 
     //http://flip1.engr.oregonstate.edu:8080/insertPost?UserId=4&title=helphere&dateOfPost=9999-12-31&dateRequesting=9999-12-31&timeRequesting=9999-12-31&message=weareheretohelp&pets=2&offerType=shelter&space=4&city=boise&street=funstrt&state=id&zip=83714	
     mysql.pool.query("INSERT INTO Post (UserId, title, street, city, state, zip, dateRequesting, timeRequesting,  pets, offerType, space, message, dateOfPost)" +

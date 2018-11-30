@@ -1,6 +1,6 @@
 <div class="container">
 
-    <form class="well form-horizontal" action="/insertPost" method="get"  id="contact_form">
+    <form class="well form-horizontal" onsubmit="return checkValues()" action="/insertPost" method="get"  id="contact_form">
 <fieldset>
 
 <!-- Form Name -->
@@ -199,6 +199,8 @@
   </div>
 </div>
 
+<!-- Error message -->
+<div class="alert alert-danger" role="alert" id="alert_message" style="visibility: hidden;"><i class="glyphicon glyphicon-warning-sign"></i> Please complete entire form before submitting.</div>
 
 <!-- Button -->
 <div class="form-group">
