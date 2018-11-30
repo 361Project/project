@@ -103,6 +103,12 @@ app.get('/makepost', function(req, res) {
     res.render('makepost', context);
 });
 
+app.get('/accept-request', function(req, res) {
+    var context = {};
+    context.title = "Request Accepted";
+    res.render('accept-request', context);
+});
+
 app.get('/deleteAccount', function(req, res, next) {
     var context = {};
     res.render('deleteaccount', context);
@@ -289,8 +295,8 @@ app.post('/contact', function(req, res) {
         }
     });
     
-    // var link = 'http://flip1.engr.oregonstate.edu:8081/accept-request?email=' + req.body.email2
-    var link = 'http://google.com/?email='+req.body.email2
+    var link = 'http://flip1.engr.oregonstate.edu:8081/accept-request'
+    // var link = 'http://localhost:8080/accept-request'
     var htmlText ='<h1>An evacuee is requesting your help!</h1><h2>Click the link below to accept request:</h2><a href="'+link+'">ACCEPT REQUEST</a>'
 
     var mailOptions = {
