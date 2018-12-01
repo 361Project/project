@@ -33,7 +33,7 @@ CREATE TABLE Post(
     state  VARCHAR(30) NOT NULL, 
 	zip INT NOT NULL,
     PRIMARY KEY (Id),
-    FOREIGN KEY (userId) REFERENCES UserAccount (Id)
+    FOREIGN KEY (userId) REFERENCES UserAccount (Id) ON DELETE CASCADE
 )ENGINE=Innodb; 
 
  CREATE TABLE ReportPost(
@@ -43,8 +43,8 @@ CREATE TABLE Post(
     whyReported VARCHAR(500), 
     dateOfRep DATE, 
 	PRIMARY KEY (Id), 
-	FOREIGN KEY (userId) REFERENCES UserAccount (Id), 
-	FOREIGN KEY (postId) REFERENCES Post (Id)
+	FOREIGN KEY (userId) REFERENCES UserAccount (Id) ON DELETE CASCADE, 
+	FOREIGN KEY (postId) REFERENCES Post (Id) ON DELETE CASCADE
 )ENGINE=Innodb;
 
 
