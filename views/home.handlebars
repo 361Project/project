@@ -31,4 +31,7 @@
 	{{#if postCreated}}
 		<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for posting!</div>
 	{{/if}}
+	{{#if invalidUser}}
+		<div class="alert alert-warning" role="alert" id="success_message"><i class="glyphicon glyphicon-warning-sign"></i> Invalid user email, please sign up before posting!</div>
+	{{/if}}
 </div>

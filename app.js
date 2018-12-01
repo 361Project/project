@@ -73,6 +73,20 @@ app.get('/insertUserAccount', function(req, res, next) {
 
     });
 });
+
+app.get('/checkEmail', function(req, res, next) {
+	var context = {};
+	console.log(req.query.email); 
+	mysql.pool.query("SELECT Id FROM UserAccount WHERE email = ?", [req.query.email], function(err, result){
+		if(err) {
+			next(err); 
+			return; 
+		}
+		console.log(result); 
+		res.send(result); 
+	}); 
+}); 
+
 app.get('/signup', function(req, res) {
     var context = {};
     context.title = 'Signup';
@@ -81,22 +95,37 @@ app.get('/signup', function(req, res) {
 app.get('/insertPost', function(req, res, next) {
     var context = {};
 	context.postCreated = true; 
-    //Test URL 
-    //http://flip1.engr.oregonstate.edu:8080/insertPost?UserId=4&title=helphere&dateOfPost=9999-12-31&dateRequesting=9999-12-31&timeRequesting=9999-12-31&message=weareheretohelp&pets=2&offerType=shelter&space=4&city=boise&street=funstrt&state=id&zip=83714	
-    mysql.pool.query("INSERT INTO Post (UserId, title, street, city, state, zip, dateRequesting, timeRequesting,  pets, offerType, space, message, dateOfPost)" +
+	mysql.pool.query("SELECT Id FROM UserAccount WHERE email = ?", [req.query.email], function(err, result){
+		if(err) {
+			next(err); 
+			return; 
+		}
+		if(result.length == 0)
+		{
+			context.invalidUser = true; 
+			context.postCreated = false;
+			res.render('home', context); 
+		}
+		else
+		{
+			mysql.pool.query("INSERT INTO Post (UserId, title, street, city, state, zip, dateRequesting, timeRequesting,  pets, offerType, space, message, dateOfPost)" +
         "VALUES ((SELECT Id FROM UserAccount WHERE email=?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())", [req.query.email, req.query.title, req.query.street, req.query.city, req.query.state, req.query.zip, req.query.dateRequesting,
             req.query.timeRequesting, req.query.pets, req.query.offerType, req.query.space, req.query.message
         ],
-        function(err, result) {
-            if (err) {
-                next(err);
-                return;
-            }
-            context.results = "Id =" + result.id
+			function(err, result) {
+				if (err) {
+					next(err);
+					return;
+				}
+				context.results = "Id =" + result.id
+				res.render('home', context);
 
-            res.render('home', context);
+			});
+		}
 
-        });
+	}); 
+    //Test URL 
+    //http://flip1.engr.oregonstate.edu:8080/insertPost?UserId=4&title=helphere&dateOfPost=9999-12-31&dateRequesting=9999-12-31&timeRequesting=9999-12-31&message=weareheretohelp&pets=2&offerType=shelter&space=4&city=boise&street=funstrt&state=id&zip=83714	
 });
 app.get('/makepost', function(req, res) {
     var context = {};
