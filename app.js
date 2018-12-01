@@ -26,7 +26,7 @@ var nodemailer = require('nodemailer');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 8074);
+app.set('port', 8082);
 app.set('mysql', mysql);
 //app.use('/leaving', require('./leaving.js')); 
 //app.use('/arriving', require('./arriving.js')); 
